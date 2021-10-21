@@ -59,6 +59,7 @@ class PostItemDetailActivity : AppCompatActivity() {
                         binding.recyclerView.isVisible = true
                         binding.progressMain.isVisible = false
                         commentAdapter.setData(it.data)
+                        binding.commentNumber.text = commentAdapter.itemCount.toString()
                     }
                     CommentApiState.Empty -> {
 
