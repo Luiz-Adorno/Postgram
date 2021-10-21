@@ -1,58 +1,67 @@
 package com.example.postgram.ui
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import android.util.Log
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.postgram.adapter.RecyclerViewAdapter
 import com.example.postgram.databinding.ActivityMainBinding
-import com.example.postgram.models.PostListItem
-import com.example.postgram.viewmodel.MainActivityViewModel
+import com.example.postgram.utils.ApiState
+import com.example.postgram.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var postAdapter: RecyclerViewAdapter
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        val recyclerViewAdapter = binding.recyclerView
+        initRecyclerView()
+        mainViewModel.getPost()
 
-        recyclerViewAdapter.layoutManager = LinearLayoutManager(this)
-        initViewModel(recyclerViewAdapter, binding)
+        lifecycleScope.launchWhenStarted {
+            mainViewModel._postStateFlow.collect {
+                when (it) {
+                    is ApiState.Loading -> {
+                        binding.recyclerView.isVisible = false
+                        binding.progressMain.isVisible = true
+                    }
+                    is ApiState.Failure -> {
+                        binding.recyclerView.isVisible = false
+                        binding.progressMain.isVisible = false
+                        Log.d("MainActivity", "onCreate: ${it.msg} ")
+                    }
+                    is ApiState.Success -> {
+                        binding.recyclerView.isVisible = true
+                        binding.progressMain.isVisible = false
+                        postAdapter.setData(it.data)
+                    }
+                    ApiState.Empty -> {
+
+                    }
+                }
+            }
+        }
 
         setContentView(binding.root)
     }
-    private fun initViewModel(recyclerView: RecyclerView, binding: ActivityMainBinding){
-        binding.progressMain.visibility = View.VISIBLE
 
-        val viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
-
-        viewModel.getPostListObserver().observe(this, Observer<List<PostListItem>>{
-            //usar let
-            if(it != null ){
-                binding.progressMain.visibility = View.GONE
-
-
-                recyclerView.adapter = RecyclerViewAdapter(it, this@MainActivity::openPostDetail)
-            }else {
-                binding.progressMain.visibility = View.GONE
-                Toast.makeText(this, "Error in geting data", Toast.LENGTH_SHORT).show()
-            }
-        })
-        viewModel.makeApiCall()
-    }
-
-    private fun openPostDetail(postListItem: PostListItem){
-        val detailIntent = Intent(this, PostItemDetail::class.java)
-        //detailIntent.putExtra("post", postListItem)
-        startActivity(detailIntent)
+    private fun initRecyclerView() {
+        postAdapter = RecyclerViewAdapter(ArrayList())
+        binding.recyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = postAdapter
+        }
     }
 
 }

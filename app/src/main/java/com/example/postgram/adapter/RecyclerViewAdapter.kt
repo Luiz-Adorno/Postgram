@@ -7,8 +7,8 @@ import com.example.postgram.databinding.RecyclerPostItemBinding
 import com.example.postgram.models.PostListItem
 
 class RecyclerViewAdapter(
-    private val items: List<PostListItem>,
-    private val onItemClick: (PostListItem) -> Unit
+    private var items: List<PostListItem>
+    //, private val onItemClick: (PostListItem) -> Unit
 ): RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>(){
 
     class MyViewHolder(val binding: RecyclerPostItemBinding): RecyclerView.ViewHolder(binding.root)
@@ -27,10 +27,15 @@ class RecyclerViewAdapter(
         holder.binding.title.text = post.title
         holder.binding.body.text = post.body
 
-        holder.itemView.setOnClickListener{
-            onItemClick(post)
-        }
+//        holder.itemView.setOnClickListener{
+//            onItemClick(post)
+//        }
 
+    }
+
+    fun setData(postListItem: List<PostListItem>){
+        this.items = postListItem
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
