@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.postgram.databinding.RecyclerPostItemBinding
 import com.example.postgram.models.PostListItem
 
-class RecyclerViewAdapter(
-    private var items: List<PostListItem>
-    //, private val onItemClick: (PostListItem) -> Unit
-): RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>(){
+class PostAdapter(
+    private var items: List<PostListItem>,
+    private val onItemClick: (PostListItem) -> Unit
+): RecyclerView.Adapter<PostAdapter.MyViewHolder>(){
 
     class MyViewHolder(val binding: RecyclerPostItemBinding): RecyclerView.ViewHolder(binding.root)
 
@@ -27,9 +27,9 @@ class RecyclerViewAdapter(
         holder.binding.title.text = post.title
         holder.binding.body.text = post.body
 
-//        holder.itemView.setOnClickListener{
-//            onItemClick(post)
-//        }
+        holder.itemView.setOnClickListener{
+            onItemClick(post)
+        }
 
     }
 

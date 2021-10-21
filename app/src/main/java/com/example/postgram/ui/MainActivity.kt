@@ -1,5 +1,6 @@
 package com.example.postgram.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -7,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.postgram.adapter.RecyclerViewAdapter
+import com.example.postgram.adapter.PostAdapter
 import com.example.postgram.databinding.ActivityMainBinding
-import com.example.postgram.utils.ApiState
+import com.example.postgram.models.PostListItem
+import com.example.postgram.utils.PostApiState
+import com.example.postgram.utils.Utils
 import com.example.postgram.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -18,7 +21,7 @@ import kotlinx.coroutines.flow.collect
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var postAdapter: RecyclerViewAdapter
+    private lateinit var postAdapter: PostAdapter
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,21 +34,21 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             mainViewModel._postStateFlow.collect {
                 when (it) {
-                    is ApiState.Loading -> {
+                    is PostApiState.Loading -> {
                         binding.recyclerView.isVisible = false
                         binding.progressMain.isVisible = true
                     }
-                    is ApiState.Failure -> {
+                    is PostApiState.Failure -> {
                         binding.recyclerView.isVisible = false
                         binding.progressMain.isVisible = false
                         Log.d("MainActivity", "onCreate: ${it.msg} ")
                     }
-                    is ApiState.Success -> {
+                    is PostApiState.Success -> {
                         binding.recyclerView.isVisible = true
                         binding.progressMain.isVisible = false
                         postAdapter.setData(it.data)
                     }
-                    ApiState.Empty -> {
+                    PostApiState.Empty -> {
 
                     }
                 }
@@ -56,12 +59,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        postAdapter = RecyclerViewAdapter(ArrayList())
+        postAdapter = PostAdapter(ArrayList(), this@MainActivity:: openPostDetail)
         binding.recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = postAdapter
         }
+    }
+
+    private fun openPostDetail(post: PostListItem){
+        val detailIntent = Intent(this, PostItemDetailActivity::class.java)
+        detailIntent.putExtra("postid", Utils.getGsonParser().toJson(post))
+        startActivity(detailIntent)
     }
 
 }

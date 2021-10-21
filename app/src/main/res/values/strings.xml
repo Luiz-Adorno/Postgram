@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Postgram</string>
+    <string name="post_comments">Comment session of this post</string>
+    <string name="post_created_by">Post created by:</string>
 </resources>

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Postgram">
         <activity
+            android:name=".ui.PostItemDetailActivity"
+            android:exported="true"/>
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

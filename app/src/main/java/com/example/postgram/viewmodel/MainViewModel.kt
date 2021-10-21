@@ -2,8 +2,8 @@ package com.example.postgram.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.postgram.repository.MainRepository
-import com.example.postgram.utils.ApiState
+import com.example.postgram.repository.Repository
+import com.example.postgram.utils.PostApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,20 +16,20 @@ import javax.inject.Inject
 class MainViewModel
 @Inject
 constructor(
-    private val mainRepository: MainRepository
+    private val repository: Repository
 ): ViewModel() {
 
-    private val postStateFlow: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Empty)
+    private val postStateFlow: MutableStateFlow<PostApiState> = MutableStateFlow(PostApiState.Empty)
 
-    val _postStateFlow: StateFlow<ApiState> = postStateFlow
+    val _postStateFlow: StateFlow<PostApiState> = postStateFlow
 
     fun getPost() = viewModelScope.launch {
-        postStateFlow.value = ApiState.Loading
+        postStateFlow.value = PostApiState.Loading
 
-        mainRepository.getPost().catch { e ->
-            postStateFlow.value = ApiState.Failure(e)
+        repository.getPost().catch { e ->
+            postStateFlow.value = PostApiState.Failure(e)
         }.collect { data ->
-            postStateFlow.value = ApiState.Success(data)
+            postStateFlow.value = PostApiState.Success(data)
         }
     }
 }
