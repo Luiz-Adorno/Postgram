@@ -1,5 +1,10 @@
 package com.example.postgram.viewmodel
 
+/**
+ * Created by Luiz Adorno on October 21, 2021
+ * Linkedln profile https://www.linkedin.com/in/luiz-adorno/
+ */
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.postgram.repository.Repository

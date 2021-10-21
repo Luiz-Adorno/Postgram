@@ -1,5 +1,10 @@
 package com.example.postgram.network
 
+/**
+ * Created by Luiz Adorno on October 21, 2021
+ * Linkedln profile https://www.linkedin.com/in/luiz-adorno/
+ */
+
 import com.example.postgram.utils.Constants
 import dagger.Module
 import dagger.Provides

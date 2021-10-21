@@ -1,5 +1,10 @@
 package com.example.postgram.ui
 
+/**
+ * Created by Luiz Adorno on October 21, 2021
+ * Linkedln profile https://www.linkedin.com/in/luiz-adorno/
+ */
+
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
