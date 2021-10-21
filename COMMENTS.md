@@ -16,6 +16,6 @@ If I had time I would improve the UI and make more robust unit tests.
     <li><a>Coroutines for asynchronous code manipulation and StateFlow for an observable mutable state.</a></li>
     <li><a>ViewBinding for interacts with views</a></li>
     <li><a>Live data for work with LiveData objects in ViewModel</a></li>
-    <li><a>Unit test</a></li>
+    <li><a>Unit test with JUnit and mockk</a></li>
   </ol>
 </details>
