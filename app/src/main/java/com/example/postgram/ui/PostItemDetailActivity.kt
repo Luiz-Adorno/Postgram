@@ -11,8 +11,10 @@ import com.example.postgram.adapter.CommentAdapter
 import com.example.postgram.databinding.ActivityPostItemDetailBinding
 import com.example.postgram.models.PostListItem
 import com.example.postgram.utils.CommentApiState
+import com.example.postgram.utils.UserApiState
 import com.example.postgram.utils.Utils.getGsonParser
 import com.example.postgram.viewmodel.CommentViewModel
+import com.example.postgram.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -22,6 +24,7 @@ class PostItemDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPostItemDetailBinding
     private lateinit var commentAdapter: CommentAdapter
     private val commentViewModel: CommentViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +40,8 @@ class PostItemDetailActivity : AppCompatActivity() {
 
         initRecyclerView()
         commentViewModel.getComment(post.id)
+        userViewModel.getUser(post.userId)
+        getOwnerPost()
 
         lifecycleScope.launchWhenStarted {
             commentViewModel._commentStateFlow.collect {
@@ -73,8 +78,27 @@ class PostItemDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun getOwnerPost(userId: Int){
+    private fun getOwnerPost(){
+        lifecycleScope.launchWhenStarted {
+            userViewModel._userStateFlow.collect {
+                when (it) {
+                    is UserApiState.Loading -> {
+                        binding.progressMain.isVisible = true
+                    }
+                    is UserApiState.Failure -> {
+                        binding.progressMain.isVisible = false
+                        Log.d("PostItemDetailActivity", "onCreate: ${it.msg} ")
+                    }
+                    is UserApiState.Success -> {
+                        binding.progressMain.isVisible = false
+                        binding.woner.text = it.data[0].name
+                    }
+                    UserApiState.Empty -> {
 
+                    }
+                }
+            }
+        }
     }
 
 }

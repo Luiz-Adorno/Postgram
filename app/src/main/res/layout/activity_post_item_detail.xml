@@ -30,9 +30,10 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp" />
             <TextView
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:id="@+id/woner"
                 android:layout_width="wrap_content"
+                android:textColor="#000fff"
                 android:layout_height="wrap_content"
                 android:textSize="21sp"
                 android:textStyle="bold" />
