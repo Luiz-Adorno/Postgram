@@ -1,7 +1,7 @@
 # Postgram
 API: https://jsonplaceholder.typicode.com/
 
-## List of third-party libraries used
+## List of technology used
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -12,5 +12,7 @@ API: https://jsonplaceholder.typicode.com/
     <li><a>ViewBinding for interacts with views</a></li>
     <li><a>Live data for work with LiveData objects in ViewModel</a></li>
     <li><a>Unit test with JUnit and mockk</a></li>
+    <li><a>Sealed class and suspend functions</a></li>
+    <li><a>Consunming APIs with Retrofit</a></li>
   </ol>
 </details>
