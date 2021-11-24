@@ -11,7 +11,7 @@ API: https://jsonplaceholder.typicode.com/
     <li><a>Coroutines for asynchronous code manipulation and StateFlow for an observable mutable state.</a></li>
     <li><a>ViewBinding for interacts with views</a></li>
     <li><a>Live data for work with LiveData objects in ViewModel</a></li>
-    <li><a>Unit test with JUnit and mockk</a></li>
+    <li><a>Unit test with JUnit and mockito</a></li>
     <li><a>Sealed class and suspend functions</a></li>
     <li><a>Consunming APIs with Retrofit</a></li>
   </ol>
