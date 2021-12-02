@@ -21,6 +21,6 @@ API: https://jsonplaceholder.typicode.com/
     <li><a>Live Data for work with LiveData objects in ViewModel</a></li>
     <li><a>Unit test with JUnit and mockito</a></li>
     <li><a>Sealed class and suspend functions</a></li>
-    <li><a>Consunming APIs with Retrofit</a></li>
+    <li><a>Consuming  APIs with Retrofit</a></li>
   </ol>
 </details>
