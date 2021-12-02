@@ -1,4 +1,12 @@
 # Postgram
+Personal project app that allows users from a test social network to see posts and comments for relevant posts
+
+The app consists of two screens:
+<ol>
+  <li>Posts list Screen</li>  
+  <li>The post detail Screen</li>  
+</ol> 
+
 API: https://jsonplaceholder.typicode.com/
 
 ## List of technology used
